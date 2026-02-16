@@ -2,6 +2,7 @@ package com.axono.service;
 
 import com.axono.domain.BaseEntity;
 import com.axono.repository.BaseRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,14 +17,11 @@ import java.util.UUID;
  * @param <R> tipo do repositório que estende BaseRepository
  */
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseRepository<T>>
         implements BaseService<T> {
 
     protected final R repository;
-
-    protected BaseServiceImpl(R repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Optional<T> findById(UUID id) {
