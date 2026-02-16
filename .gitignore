@@ -34,3 +34,5 @@ build/
 
 ### Local overrides (credenciais) ###
 application-local.properties
+.env
+.env.local
