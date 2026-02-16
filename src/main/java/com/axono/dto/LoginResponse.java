@@ -16,7 +16,8 @@ public record LoginResponse(
             String email,
             List<String> roles,
             boolean firstAccessPending,
-            String matricula
+            String matricula,
+            String crm
     ) {
         public static UserResponse from(User user) {
             List<String> roleNames = user.getRoles().stream()
@@ -28,7 +29,8 @@ public record LoginResponse(
                     user.getEmail(),
                     roleNames,
                     user.isFirstAccessPending(),
-                    user.getMatricula()
+                    user.getMatricula(),
+                    user.getCrm()
             );
         }
     }

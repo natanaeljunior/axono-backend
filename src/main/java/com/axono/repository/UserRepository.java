@@ -25,4 +25,6 @@ public interface UserRepository extends BaseRepository<User> {
     boolean existsByEmailIgnoreCaseAndIdNot(String email, UUID id);
 
     boolean existsByMatriculaAndIdNot(String matricula, UUID id);
+
+    boolean existsByCrmAndIdNot(String crm, UUID id);
 }
