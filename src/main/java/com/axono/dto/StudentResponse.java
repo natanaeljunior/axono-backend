@@ -10,6 +10,8 @@ public record StudentResponse(
         String name,
         String email,
         String matricula,
+        UUID groupId,
+        String groupName,
         boolean firstAccessPending,
         Instant createdAt
 ) {
@@ -19,6 +21,8 @@ public record StudentResponse(
                 user.getName(),
                 user.getEmail(),
                 user.getMatricula(),
+                user.getGroup() != null ? user.getGroup().getId() : null,
+                user.getGroup() != null ? user.getGroup().getCode() : null,
                 user.isFirstAccessPending(),
                 user.getCreatedAt()
         );

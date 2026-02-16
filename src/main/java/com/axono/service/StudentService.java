@@ -6,6 +6,7 @@ import com.axono.dto.StudentResponse;
 import com.axono.dto.StudentUpdateRequest;
 import com.axono.exception.BusinessException;
 import com.axono.exception.ResourceNotFoundException;
+import com.axono.repository.GroupRepository;
 import com.axono.repository.StudentRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,10 +27,12 @@ public class StudentService extends BaseServiceImpl<User, StudentRepository> {
     private static final String TEMP_PASSWORD = "ChangeMe@123";
 
     private final PasswordEncoder passwordEncoder;
+    private final GroupRepository groupRepository;
 
-    public StudentService(StudentRepository repository, PasswordEncoder passwordEncoder) {
+    public StudentService(StudentRepository repository, PasswordEncoder passwordEncoder, GroupRepository groupRepository) {
         super(repository);
         this.passwordEncoder = passwordEncoder;
+        this.groupRepository = groupRepository;
     }
 
     @Transactional(readOnly = true)
@@ -64,6 +67,11 @@ public class StudentService extends BaseServiceImpl<User, StudentRepository> {
             user.setFirstAccessPending(true);
         }
 
+        if (request.groupId() != null) {
+            user.setGroup(groupRepository.findById(request.groupId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Grupo", request.groupId())));
+        }
+
         return StudentResponse.from(save(user));
     }
 
@@ -86,6 +94,11 @@ public class StudentService extends BaseServiceImpl<User, StudentRepository> {
         if (request.hasPassword()) {
             user.setPasswordHash(passwordEncoder.encode(request.password()));
             user.setFirstAccessPending(false);
+        }
+
+        if (request.groupId() != null) {
+            user.setGroup(groupRepository.findById(request.groupId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Grupo", request.groupId())));
         }
 
         return StudentResponse.from(save(user));

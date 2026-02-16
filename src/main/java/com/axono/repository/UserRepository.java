@@ -1,5 +1,6 @@
 package com.axono.repository;
 
+import com.axono.domain.Group;
 import com.axono.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,4 +28,6 @@ public interface UserRepository extends BaseRepository<User> {
     boolean existsByMatriculaAndIdNot(String matricula, UUID id);
 
     boolean existsByCrmAndIdNot(String crm, UUID id);
+
+    long countByGroupAndRolesContaining(Group group, User.UserRole role);
 }

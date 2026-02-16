@@ -56,6 +56,11 @@ public class User extends BaseEntity {
     @Column(name = "first_access_pending", nullable = false)
     private boolean firstAccessPending = true;
 
+    /** Grupo de internato ao qual o aluno pertence (apenas para role ALUNO). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private Group group;
+
     public void setRoles(List<UserRole> roles) {
         this.roles = roles != null ? new ArrayList<>(roles) : new ArrayList<>();
     }
